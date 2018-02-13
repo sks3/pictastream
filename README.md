@@ -2,7 +2,7 @@
 
 PictaStream is a photo browsing app using the [The Tumblr API](https://www.tumblr.com/docs/en/api/v2#posts).
 
-Time spent: **2** hours spent in total
+Time spent: **4** hours spent in total
 
 ## User Stories
 
@@ -19,24 +19,25 @@ The following **stretch** user stories are implemented:
 
 The following **additional** user stories are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality! (+1-3pts)
-<!---
+- [x] Added loading state HUD while waiting for the images to load
+
+
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1. I would like to implement the ability to view different image streams
+2. How can allow for a streamed image to be downloaded to the device
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+![PictaStream Video Walkthrough](https://github.com/sks3/pictastream/blob/master/pictastream1.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
--->
+
 ## Notes
 
-Describe any challenges encountered while building the app.
+I modeled this app very closely to the CinemaBoss project, and plan to work on them in tandem.  When I first created this I named an IBOutlet "imageView", which caused undesired results.  Appropriately named outlets are a must!
 
 ## License
 
