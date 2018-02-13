@@ -20,8 +20,8 @@ The following **stretch** user stories are implemented:
 The following **additional** user stories are implemented:
 
 - [x] Added loading state HUD while waiting for the images to load
-
-
+- [x] User can "Pull to refresh" the image list
+ 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
 1. I would like to implement the ability to view different image streams
