@@ -125,6 +125,10 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "PhotoCell", for: indexPath) as! PhotoCell
+    
+    // display placeholder image until landscape loads
+    let placeholderImage = UIImage(named: "placeholder")
+    
     let post = posts[indexPath.row]
     //if let photos = post["photos"] as? [[String: Any]] {
       let photos = post["photos"] as! [[String: Any]]
@@ -132,7 +136,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
       let originalSize = photo["original_size"] as! [String: Any]
       let urlString = originalSize["url"] as! String
       let url = URL(string: urlString)
-      cell.tumblrImage.af_setImage(withURL: url!)
+    cell.tumblrImage.af_setImage(withURL: url!, placeholderImage: placeholderImage)
     //}
     return cell
   }
