@@ -31,6 +31,7 @@ import AlamofireImage
 import iProgressHUD
 
 private let reuseIdentifier = "Cell"
+var alertController: UIAlertController!
 
 class PhotosViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -50,6 +51,13 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     tableView.dataSource = self
     tableView.delegate = self
     tableView.rowHeight = 275
+    
+    // alert user if no network connection is found
+    alertController = UIAlertController(title: "Cannot Retrieve Images", message: "The Internet Connection is Offline", preferredStyle: .alert)
+    let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) {(action) in self.getTumblrImages()}
+    alertController.addAction(tryAgainAction)
+    
+    
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -83,6 +91,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     //session.configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
     let task = session.dataTask(with: url) { (data, response, error) in
       if let error = error {
+        self.present(alertController, animated: true)
         print(error.localizedDescription)
       }
       else if let data = data {
