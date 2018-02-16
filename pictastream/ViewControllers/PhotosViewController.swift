@@ -121,6 +121,18 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     return cell
   }
 
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    let cell = sender as! UITableViewCell
+    if let indexPath = tableView.indexPath(for: cell) {
+      let post = posts[indexPath.row]
+      let detailViewController = segue.destination as! PhotoDetailsViewController
+      detailViewController.post = post
+      
+    }
+  }
+  
+  
+  
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

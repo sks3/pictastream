@@ -10,6 +10,7 @@
 		16B660B67B94D7E0C5DFD74C /* Pods_pictastreamTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F44630E1483C3A35AA42C2C /* Pods_pictastreamTests.framework */; };
 		39CE545F2EF6D53490F55A22 /* Pods_pictastreamUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B0A4E1A469A68D9CFF46FB /* Pods_pictastreamUITests.framework */; };
 		CC90ED5D6E3543CB735AEC60 /* Pods_pictastream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD3FF63B23AA461CC981FA1 /* Pods_pictastream.framework */; };
+		E743DE0D20365C4500DCC3D2 /* PhotoDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E743DE0C20365C4500DCC3D2 /* PhotoDetailsViewController.swift */; };
 		E750F5C0202D4BC0003C844D /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E750F5BF202D4BC0003C844D /* PhotosViewController.swift */; };
 		E79590E2202D319800F5565C /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E79590E1202D319800F5565C /* PhotoCell.swift */; };
 		E7F8A840202D0C7A00BACF69 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8A83F202D0C7A00BACF69 /* AppDelegate.swift */; };
@@ -46,6 +47,7 @@
 		9ADD156FC94BF5F12FD56269 /* Pods-pictastream.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pictastream.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pictastream/Pods-pictastream.debug.xcconfig"; sourceTree = "<group>"; };
 		BC71EE1B5B21EEFBF07F4F78 /* Pods-pictastream.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pictastream.release.xcconfig"; path = "Pods/Target Support Files/Pods-pictastream/Pods-pictastream.release.xcconfig"; sourceTree = "<group>"; };
 		DC9A22008FFC99451BB0FA02 /* Pods-pictastreamUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pictastreamUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-pictastreamUITests/Pods-pictastreamUITests.release.xcconfig"; sourceTree = "<group>"; };
+		E743DE0C20365C4500DCC3D2 /* PhotoDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailsViewController.swift; sourceTree = "<group>"; };
 		E750F5BF202D4BC0003C844D /* PhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
 		E79590E1202D319800F5565C /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		E7F8A83C202D0C7A00BACF69 /* pictastream.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pictastream.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +106,23 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E743DE0A20365BD200DCC3D2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E79590E1202D319800F5565C /* PhotoCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E743DE0B20365C1000DCC3D2 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E750F5BF202D4BC0003C844D /* PhotosViewController.swift */,
+				E743DE0C20365C4500DCC3D2 /* PhotoDetailsViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		E7F8A833202D0C7A00BACF69 = {
 			isa = PBXGroup;
 			children = (
@@ -129,13 +148,13 @@
 		E7F8A83E202D0C7A00BACF69 /* pictastream */ = {
 			isa = PBXGroup;
 			children = (
+				E743DE0B20365C1000DCC3D2 /* ViewControllers */,
+				E743DE0A20365BD200DCC3D2 /* Views */,
 				E7F8A83F202D0C7A00BACF69 /* AppDelegate.swift */,
 				E7F8A843202D0C7A00BACF69 /* Main.storyboard */,
 				E7F8A846202D0C7A00BACF69 /* Assets.xcassets */,
 				E7F8A848202D0C7A00BACF69 /* LaunchScreen.storyboard */,
 				E7F8A84B202D0C7A00BACF69 /* Info.plist */,
-				E79590E1202D319800F5565C /* PhotoCell.swift */,
-				E750F5BF202D4BC0003C844D /* PhotosViewController.swift */,
 			);
 			path = pictastream;
 			sourceTree = "<group>";
@@ -465,6 +484,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E743DE0D20365C4500DCC3D2 /* PhotoDetailsViewController.swift in Sources */,
 				E750F5C0202D4BC0003C844D /* PhotosViewController.swift in Sources */,
 				E79590E2202D319800F5565C /* PhotoCell.swift in Sources */,
 				E7F8A840202D0C7A00BACF69 /* AppDelegate.swift in Sources */,
