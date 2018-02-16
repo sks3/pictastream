@@ -102,6 +102,13 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     task.resume()
   }
   
+  func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: true)
+  }
+  
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return 1
+  }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return posts.count

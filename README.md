@@ -22,8 +22,8 @@ The following **additional** user stories are implemented:
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1.  I would like to add multiple streams and a search bar
+2.  Is there a way to save an image to the phone?
 
 ## Video Walkthrough
 
