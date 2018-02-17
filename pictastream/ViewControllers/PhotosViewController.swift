@@ -79,18 +79,19 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
   
   @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
     // Set caption for HUD
-    view.updateCaption(text: "Refreshing...")
+    view.updateCaption(text: "refreshing...")
     view.showProgress()
     getTumblrImages()
   }
   
-  // Retrieve Humans of NewYork images from Tumblr API
+  // Retrieve U.S. Parks images from Tumblr API
   func getTumblrImages() {
     let url = URL(string: "https://api.tumblr.com/v2/blog/unitedstatesnationalparks-blog.tumblr.com/posts/photo?api_key=Q6vHoaVm5L1u2ZAW1fqv3Jw48gFzYVg9P0vH0VHl3GVy6quoGV")!
     let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
     //session.configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
     let task = session.dataTask(with: url) { (data, response, error) in
       if let error = error {
+        // display alert for user to retry connection
         self.present(alertController, animated: true)
         print(error.localizedDescription)
       }
@@ -129,6 +130,12 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     // display placeholder image until landscape loads
     let placeholderImage = UIImage(named: "placeholder")
     
+    // specify animation technique for image transition
+    let filter = AspectScaledToFillSizeFilter(size: cell.tumblrImage.frame.size)
+    
+    //set cell selection effect
+    cell.selectionStyle = .none
+    
     let post = posts[indexPath.row]
     //if let photos = post["photos"] as? [[String: Any]] {
       let photos = post["photos"] as! [[String: Any]]
@@ -136,7 +143,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
       let originalSize = photo["original_size"] as! [String: Any]
       let urlString = originalSize["url"] as! String
       let url = URL(string: urlString)
-    cell.tumblrImage.af_setImage(withURL: url!, placeholderImage: placeholderImage)
+    cell.tumblrImage.af_setImage(withURL: url!, placeholderImage: placeholderImage, filter: filter, imageTransition: .crossDissolve(0.3))
     //}
     return cell
   }
