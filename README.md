@@ -2,7 +2,7 @@
 
 **PictaStream** is a photo browsing app app using the [The Tumblr API](https://www.tumblr.com/docs/en/api/v2#posts).
 
-Time spent: **7** hours spent in total
+Time spent: **8** hours spent in total
 
 ## User Stories
 
@@ -13,7 +13,7 @@ The following **required** user stories are complete:
 The following **stretch** user stories are implemented:
 
 - [x] Add Avatar and Publish Dates (+2pt)
-- [ ] Zoomable Photo View (+2pt)
+- [x] Zoomable Photo View (+2pt)
 - [x] Infinite Scrolling (+2pt)
 
 The following **additional** user stories are implemented:

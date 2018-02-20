@@ -16,6 +16,11 @@ class PhotoDetailsViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGesture:)))
+    detailImage.isUserInteractionEnabled = true
+    detailImage.addGestureRecognizer(tapGesture)
+    
     if let post = post {
       //let post = posts[indexPath.row]
       //if let photos = post["photos"] as? [[String: Any]] {
@@ -28,21 +33,14 @@ class PhotoDetailsViewController: UIViewController {
       
     }
   }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+  
+  @objc func imageTapped(tapGesture: UITapGestureRecognizer) {
+    performSegue(withIdentifier: "FullScreen", sender: nil)
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    let destinationNavigationController = segue.destination as! UINavigationController
+    let fullScreenController = destinationNavigationController.topViewController as! FullScreenViewController
+    fullScreenController.post = post
+  }
 }

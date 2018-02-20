@@ -177,7 +177,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
     headerView.backgroundColor = UIColor(white: 1, alpha: 0.9)
     
-    let profileView = UIImageView(frame: CGRect(x: 10, y: 10, width: 30, height: 30))
+    let profileView = UIImageView(frame: CGRect(x: 10, y: 5, width: 30, height: 30))
     profileView.clipsToBounds = true
     profileView.layer.cornerRadius = 15
     profileView.layer.borderColor = UIColor(white: 0.7, alpha: 0.8).cgColor
@@ -185,7 +185,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     profileView.af_setImage(withURL: URL(string: "https://api.tumblr.com/v2/blog/humansofnewyork.tumblr.com/avatar")!)
     headerView.addSubview(profileView)
     
-    let label = UILabel(frame: CGRect(x: 65, y: 0, width: 280, height: 30))
+    let label = UILabel(frame: CGRect(x: 65, y: 5, width: 280, height: 30))
     let post = posts[section]
     label.text = post["date"] as? String
     headerView.addSubview(label)
@@ -221,18 +221,13 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let cell = sender as! UITableViewCell
     if let indexPath = tableView.indexPath(for: cell) {
-      let post = posts[indexPath.row]
+      let post = posts[indexPath.section]
       let detailViewController = segue.destination as! PhotoDetailsViewController
       detailViewController.post = post
       
     }
   }
   
-  
-  
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+
 
 }
