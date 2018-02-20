@@ -46,20 +46,25 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
   
   var refreshControl: UIRefreshControl!
   
+  let CellIdentifier = "TableViewCell", HeaderViewIdentifier = "TableViewHeaderView"
+  
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    tableView.dataSource = self
     tableView.delegate = self
+    tableView.rowHeight = 275
     scrollView.delegate = self
+    
+    tableView.register(UITableViewCell.self, forCellReuseIdentifier: CellIdentifier)
+    tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: HeaderViewIdentifier)
     
     // Initialize refresh control
     refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector(PhotosViewController.didPullToRefresh(_:)), for: .valueChanged)
     tableView.insertSubview(refreshControl, at: 0)
     
-    tableView.dataSource = self
-    tableView.delegate = self
-    tableView.rowHeight = 275
     
     // alert user if no network connection is found
     alertController = UIAlertController(title: "Cannot Retrieve Images", message: "The Internet Connection is Offline", preferredStyle: .alert)
@@ -161,11 +166,31 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
   }
   
   func numberOfSections(in tableView: UITableView) -> Int {
-    return 1
+    return posts.count
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return posts.count
+    return 1
+  }
+  
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
+    headerView.backgroundColor = UIColor(white: 1, alpha: 0.9)
+    
+    let profileView = UIImageView(frame: CGRect(x: 10, y: 10, width: 30, height: 30))
+    profileView.clipsToBounds = true
+    profileView.layer.cornerRadius = 15
+    profileView.layer.borderColor = UIColor(white: 0.7, alpha: 0.8).cgColor
+    profileView.layer.borderWidth = 1
+    profileView.af_setImage(withURL: URL(string: "https://api.tumblr.com/v2/blog/humansofnewyork.tumblr.com/avatar")!)
+    headerView.addSubview(profileView)
+    
+    let label = UILabel(frame: CGRect(x: 65, y: 0, width: 280, height: 30))
+    let post = posts[section]
+    label.text = post["date"] as? String
+    headerView.addSubview(label)
+    
+    return headerView
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -180,7 +205,8 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     //set cell selection effect
     cell.selectionStyle = .none
     
-    let post = posts[indexPath.row]
+    let post = posts[indexPath.section]
+    //let post = posts[indexPath.row]
     //if let photos = post["photos"] as? [[String: Any]] {
       let photos = post["photos"] as! [[String: Any]]
       let photo = photos[0]
