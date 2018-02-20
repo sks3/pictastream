@@ -50,6 +50,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="AQ5-Hy-gtf"/>
                     <connections>
+                        <outlet property="scrollView" destination="lQn-ce-nEG" id="3ZP-MS-6pJ"/>
                         <outlet property="tableView" destination="lQn-ce-nEG" id="0Hz-Ad-Bkh"/>
                     </connections>
                 </viewController>

@@ -33,15 +33,24 @@ import iProgressHUD
 private let reuseIdentifier = "Cell"
 var alertController: UIAlertController!
 
-class PhotosViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class PhotosViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
 
   @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var scrollView: UIScrollView!
   
   var posts: [[String: Any]] = []
+  var posts1: [[String: Any]] = []
+  var isMoreDataLoading = false
+  var offset = 0
+  var totalPosts = 0
+  
   var refreshControl: UIRefreshControl!
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    tableView.delegate = self
+    scrollView.delegate = self
     
     // Initialize refresh control
     refreshControl = UIRefreshControl()
@@ -60,6 +69,18 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     
   }
   
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    if (!isMoreDataLoading) {
+      let scrollViewContentHeight = tableView.contentSize.height
+      let scrollViewOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+      
+      if (scrollView.contentOffset.y > scrollViewOffsetThreshold && tableView.isDragging) {
+        isMoreDataLoading = true
+        getTumblrImages()
+      }
+    }
+  }
+  
   override func viewDidAppear(_ animated: Bool) {
     // Configure HUD and attach to view
     let iprogress: iProgressHUD = iProgressHUD()
@@ -73,7 +94,13 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     iprogress.captionSize = 20
     iprogress.attachProgress(toView: view)
     view.showProgress()
-    getTumblrImages()
+    if (posts.count == 0) {
+      getTumblrImages()
+    }
+    else {
+      view.dismissProgress()
+    }
+    
   }
   
   
@@ -81,14 +108,27 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     // Set caption for HUD
     view.updateCaption(text: "refreshing...")
     view.showProgress()
+    offset = 0
     getTumblrImages()
   }
   
   // Retrieve U.S. Parks images from Tumblr API
   func getTumblrImages() {
-    let url = URL(string: "https://api.tumblr.com/v2/blog/unitedstatesnationalparks-blog.tumblr.com/posts/photo?api_key=Q6vHoaVm5L1u2ZAW1fqv3Jw48gFzYVg9P0vH0VHl3GVy6quoGV")!
+    view.showProgress()
+    if (isMoreDataLoading && offset + 20 < totalPosts) {
+      offset += 20
+    }
+    
+    // Humans of New York tumblr feed
+    let baseUrl = "https://api.tumblr.com/v2/blog/humansofnewyork.tumblr.com/posts/photo?api_key=Q6vHoaVm5L1u2ZAW1fqv3Jw48gFzYVg9P0vH0VHl3GVy6quoGV"
+    let urlOffset = "&offset=" + String(offset)
+    
+    let url = URL(string: baseUrl + urlOffset)!
+    
+    // US Parks tumblr feed
+    //let url = URL(string: "https://api.tumblr.com/v2/blog/unitedstatesnationalparks-blog.tumblr.com/posts/photo?api_key=Q6vHoaVm5L1u2ZAW1fqv3Jw48gFzYVg9P0vH0VHl3GVy6quoGV")!
+    
     let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
-    //session.configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
     let task = session.dataTask(with: url) { (data, response, error) in
       if let error = error {
         // display alert for user to retry connection
@@ -97,13 +137,17 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
       }
       else if let data = data {
         let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-        //print(dataDictionary)
-        
-        // Get dictionary from response key
         let responseDictionary = dataDictionary["response"] as! [String: Any]
+        self.totalPosts = responseDictionary["total_posts"] as! Int
         
-        // Store returned array of dictionaries in posts property
-        self.posts = responseDictionary["posts"] as! [[String: Any]]
+        if (self.isMoreDataLoading) {
+          self.posts1 = responseDictionary["posts"] as! [[String: Any]]
+          self.posts.append(contentsOf: self.posts1)
+          self.isMoreDataLoading = false
+        }
+        else {
+          self.posts = responseDictionary["posts"] as! [[String: Any]]
+        }
         self.tableView.reloadData()
         self.refreshControl.endRefreshing()
         self.view.dismissProgress()
