@@ -34,12 +34,14 @@ class FullScreenViewController: UIViewController, UIScrollViewDelegate {
   @IBOutlet var zoomImage: UIImageView!
   @IBOutlet var scrollView: UIScrollView!
   
+  // global variable to hold post
   var post: [String: Any]?
   
   override func viewDidLoad() {
     super.viewDidLoad()
     scrollView.delegate = self
     
+    // load post and attach image to zoomImage
     if let post = post {
       let photos = post["photos"] as! [[String: Any]]
       let photo = photos[0]
@@ -50,6 +52,7 @@ class FullScreenViewController: UIViewController, UIScrollViewDelegate {
     }
   }
   
+  // allow zoom function for scrollview
   func viewForZooming(in scrollView: UIScrollView) -> UIView? {
     return zoomImage
   }

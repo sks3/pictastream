@@ -38,12 +38,16 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var scrollView: UIScrollView!
   
+  // global variables for posts
   var posts: [[String: Any]] = []
   var posts1: [[String: Any]] = []
+  
+  // global variables for infinite scrolling
   var isMoreDataLoading = false
   var offset = 0
   var totalPosts = 0
   
+  // global variable for pull to refresh
   var refreshControl: UIRefreshControl!
   
   override func viewDidLoad() {
@@ -64,11 +68,11 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     alertController.addAction(tryAgainAction)
   }
   
+  // load more posts if scrolled past threshold
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     if (!isMoreDataLoading) {
       let scrollViewContentHeight = tableView.contentSize.height
       let scrollViewOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
-      
       if (scrollView.contentOffset.y > scrollViewOffsetThreshold && tableView.isDragging) {
         isMoreDataLoading = true
         getTumblrImages()
@@ -97,6 +101,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     }
   }
   
+  // reload images if pulled to refresh
   @objc func didPullToRefresh(_ refreshControl: UIRefreshControl) {
     // Set caption for HUD
     view.updateCaption(text: "refreshing...")
@@ -105,14 +110,14 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     getTumblrImages()
   }
   
-  // Retrieve U.S. Parks images from Tumblr API
+  // Retrieve Humans of New York images from Tumblr API
   func getTumblrImages() {
     view.showProgress()
     if (isMoreDataLoading && offset + 20 < totalPosts) {
       offset += 20
     }
     
-    // US Parks tumblr feed
+    // US Parks tumblr feed (alternate feed)
     //let url = URL(string: "https://api.tumblr.com/v2/blog/unitedstatesnationalparks-blog.tumblr.com/posts/photo?api_key=Q6vHoaVm5L1u2ZAW1fqv3Jw48gFzYVg9P0vH0VHl3GVy6quoGV")!
     
     // Humans of New York tumblr feed
@@ -131,7 +136,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
         let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         let responseDictionary = dataDictionary["response"] as! [String: Any]
         self.totalPosts = responseDictionary["total_posts"] as! Int
-        
+        // append to posts dictionary if infinite scrolling
         if (self.isMoreDataLoading) {
           self.posts1 = responseDictionary["posts"] as! [[String: Any]]
           self.posts.append(contentsOf: self.posts1)
@@ -160,10 +165,10 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     return 1
   }
   
+  // setup header and avatar and attach to sections
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
     headerView.backgroundColor = UIColor(white: 1, alpha: 0.9)
-    
     let profileView = UIImageView(frame: CGRect(x: 10, y: 5, width: 30, height: 30))
     profileView.clipsToBounds = true
     profileView.layer.cornerRadius = 15
@@ -171,12 +176,11 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     profileView.layer.borderWidth = 1
     profileView.af_setImage(withURL: URL(string: "https://api.tumblr.com/v2/blog/humansofnewyork.tumblr.com/avatar")!)
     headerView.addSubview(profileView)
-    
+    // retrieve date and add to header view
     let label = UILabel(frame: CGRect(x: 65, y: 5, width: 280, height: 30))
     let post = posts[section]
     label.text = post["date"] as? String
     headerView.addSubview(label)
-    
     return headerView
   }
   
@@ -192,6 +196,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     //set cell selection effect
     cell.selectionStyle = .none
     
+    // load image from posts and attach to image view
     let post = posts[indexPath.section]
     let photos = post["photos"] as! [[String: Any]]
     let photo = photos[0]
@@ -202,6 +207,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     return cell
   }
   
+  // send post to detail view controller
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let cell = sender as! UITableViewCell
     if let indexPath = tableView.indexPath(for: cell) {

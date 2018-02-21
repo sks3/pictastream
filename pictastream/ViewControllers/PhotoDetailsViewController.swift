@@ -32,14 +32,18 @@ class PhotoDetailsViewController: UIViewController {
   
   @IBOutlet weak var detailImage: UIImageView!
   
+  // global variable for post
   var post: [String: Any]?
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    // recognize tap on picture to trigger modal segue
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGesture:)))
     detailImage.isUserInteractionEnabled = true
     detailImage.addGestureRecognizer(tapGesture)
     
+    // load image from post and attach to detailImage
     if let post = post {
       let photos = post["photos"] as! [[String: Any]]
       let photo = photos[0]
@@ -54,6 +58,7 @@ class PhotoDetailsViewController: UIViewController {
     performSegue(withIdentifier: "FullScreen", sender: nil)
   }
   
+  // send post to fullscreen view controller
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let destinationNavigationController = segue.destination as! UINavigationController
     let fullScreenController = destinationNavigationController.topViewController as! FullScreenViewController
